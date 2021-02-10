@@ -69,6 +69,7 @@ const Dashboard: React.FC = () => {
 
   useEffect(() => {
     async function loadCategories(): Promise<void> {
+      navigation.navigate('/categories');
       // Load categories from API
     }
 
