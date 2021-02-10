@@ -77,6 +77,7 @@ const Dashboard: React.FC = () => {
   }, []);
 
   function handleSelectCategory(id: number): void {
+    navigation.navigate('/category', { id });
     // Select / deselect category
   }
 
