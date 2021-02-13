@@ -49,20 +49,20 @@ const Dashboard: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<
     number | undefined
   >();
+  const [oldId, setOldId] = useState<number | undefined>();
   const [searchValue, setSearchValue] = useState('');
 
   const navigation = useNavigation();
 
   async function handleNavigate(id: number): Promise<void> {
-    navigation.navigate('/ProductDetails', { id });
+    // navigation.navigate('/foods', { id });
     // Navigate do ProductDetails page
   }
 
   useEffect(() => {
     async function loadFoods(): Promise<void> {
-      const { data } = await api.get('foods');
-
-      setFoods(data);
+      const response = await api.get('/foods');
+      setFoods(response.data);
     }
 
     loadFoods();
@@ -70,16 +70,22 @@ const Dashboard: React.FC = () => {
 
   useEffect(() => {
     async function loadCategories(): Promise<void> {
-      navigation.navigate('/categories');
-      // Load categories from API
+      const response = await api.get('/categories');
+      setCategories(response.data);
     }
 
     loadCategories();
   }, []);
 
   function handleSelectCategory(id: number): void {
-    navigation.navigate('/category', { id });
-    // Select / deselect category
+    let valueOldId: number | undefined = id;
+    if (id === oldId) {
+      setSelectedCategory(undefined);
+      valueOldId = undefined;
+    } else {
+      setSelectedCategory(id);
+    }
+    setOldId(valueOldId);
   }
 
   return (
